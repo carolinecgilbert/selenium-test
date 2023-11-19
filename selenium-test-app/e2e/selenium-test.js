@@ -37,9 +37,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var selenium_webdriver_1 = require("selenium-webdriver");
+var fs = require('fs');
+// Specify the path to the log file
+var logFilePath = 'selenium-test.log';
+// Function to log messages to a file
+function logToFile(message) {
+    fs.appendFileSync(logFilePath, "".concat(new Date().toISOString(), " - ").concat(message, "\n"));
+}
 function example() {
     return __awaiter(this, void 0, void 0, function () {
-        var driver, usernameInput, passwordInput, loginButton;
+        var driver, usernameInput, passwordInput, loginButton, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, new selenium_webdriver_1.Builder().forBrowser('chrome').build()];
@@ -47,10 +54,15 @@ function example() {
                     driver = _a.sent();
                     _a.label = 2;
                 case 2:
-                    _a.trys.push([2, , 11, 13]);
+                    _a.trys.push([2, 11, 12, 14]);
+                    // Log that the test is starting
+                    logToFile('Starting Selenium test...');
+                    // Navigate to the app
                     return [4 /*yield*/, driver.get('http://localhost:4200')];
                 case 3:
+                    // Navigate to the app
                     _a.sent();
+                    logToFile('Navigated to http://localhost:4200');
                     return [4 /*yield*/, driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.css('#username')), 10000)];
                 case 4:
                     usernameInput = _a.sent();
@@ -78,12 +90,20 @@ function example() {
                 case 10:
                     // Wait for a moment to see the result
                     _a.sent();
-                    return [3 /*break*/, 13];
-                case 11: return [4 /*yield*/, driver.quit()];
+                    logToFile('Test completed successfully.');
+                    return [3 /*break*/, 14];
+                case 11:
+                    error_1 = _a.sent();
+                    // Log any errors that occur during the test
+                    logToFile("Error during Selenium test: ".concat(error_1));
+                    return [3 /*break*/, 14];
                 case 12:
+                    logToFile('Quitting Selenium test...');
+                    return [4 /*yield*/, driver.quit()];
+                case 13:
                     _a.sent();
                     return [7 /*endfinally*/];
-                case 13: return [2 /*return*/];
+                case 14: return [2 /*return*/];
             }
         });
     });
