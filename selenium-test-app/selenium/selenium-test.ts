@@ -1,12 +1,12 @@
-import { log } from 'console';
 import { Builder, By, until } from 'selenium-webdriver';
+
 const fs = require('fs');
 
 // Specify the path to the log file
 const logFilePath = 'selenium-test.log';
 
 // Function to log messages to a file
-function logToFile(message) {
+function logToFile(message: string) {
   fs.appendFileSync(logFilePath, `${new Date().toISOString()} - ${message}\n`);
 }
 
@@ -32,6 +32,23 @@ async function example() {
 
     // Click the login button
     await loginButton.click();
+
+
+    // Use Axios to make an API request
+    const axios = require('axios');
+
+    try {
+      const response = await axios.post('http://your-api-url/login', {
+        username: 'example_user',
+        password: 'secure_password',
+      });
+
+      // Assert the API response
+      logToFile(`API Response: ${response.data}`);
+    } catch (error) {
+      // Handle errors
+      logToFile(`ERROR with API Response: ${error}`);
+    }
 
     // Wait for a moment to see the result
     await driver.sleep(3000);
